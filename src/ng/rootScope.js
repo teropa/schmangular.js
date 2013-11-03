@@ -50,3 +50,11 @@ Scope.prototype.$digest = function(){
 Scope.prototype.$eval = function(expr, locals) {
   return expr(this, locals);
 };
+
+Scope.prototype.$apply = function(expr) {
+  try {
+    return this.$eval(expr);
+  } finally {
+    this.$digest();
+  }
+};
