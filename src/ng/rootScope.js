@@ -11,7 +11,13 @@ Scope.prototype.$watch = function(watchFn, listenerFn) {
 };
 
 Scope.prototype.$digest = function() {
+  var self = this;
   _.forEach(this.$$watchers, function(watch) {
-    watch.listenerFn();
+    var newValue = watch.watchFn(self);
+    var oldValue = watch.last;
+    if (newValue !== oldValue) {
+      watch.listenerFn(newValue, oldValue, self);
+    }
+    watch.last = newValue;
   });  
 };
