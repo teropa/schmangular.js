@@ -17,12 +17,19 @@ Scope.prototype.$clearPhase = function() {
 };
 
 Scope.prototype.$watch = function(watchFn, listenerFn, valueEq) {
+  var self = this;
   var watcher = {
     watchFn: watchFn,
     listenerFn: listenerFn || function() { },
     valueEq: !!valueEq
   };
-  this.$$watchers.push(watcher);
+  self.$$watchers.push(watcher);
+  return function() {
+    var index = self.$$watchers.indexOf(watcher);
+    if (index >= 0) {
+      self.$$watchers.splice(index, 1);
+    }
+  };
 };
 
 Scope.prototype.$$areEqual = function(newValue, oldValue, valueEq) {
