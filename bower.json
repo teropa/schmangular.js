@@ -5,6 +5,9 @@
   "authors": [
     "Tero Parviainen <tero@teropa.info>"
   ],
+  "dependencies": {
+    "lodash": "~2.2.1"
+  },
   "ignore": [
     "**/.*",
     "node_modules",
