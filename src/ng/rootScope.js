@@ -39,13 +39,17 @@ Scope.prototype.$$digestOnce = function() {
   var self  = this;
   var dirty;
   _.forEach(this.$$watchers, function(watch) {
-    var newValue = watch.watchFn(self);
-    var oldValue = watch.last;
-    if (!self.$$areEqual(newValue, oldValue, watch.valueEq)) {
-      watch.listenerFn(newValue, oldValue, self);
-      dirty = true;
+    try {
+      var newValue = watch.watchFn(self);
+      var oldValue = watch.last;
+      if (!self.$$areEqual(newValue, oldValue, watch.valueEq)) {
+        watch.listenerFn(newValue, oldValue, self);
+        dirty = true;
+      }
+      watch.last = (watch.valueEq ? _.cloneDeep(newValue) : newValue);
+    } catch (e) {
+      (console.error || console.log)(e);
     }
-    watch.last = (watch.valueEq ? _.cloneDeep(newValue) : newValue);
   });
   return dirty;
 };
@@ -56,8 +60,12 @@ Scope.prototype.$digest = function(){
   this.$beginPhase("$digest");
   do {
     while (this.$$asyncQueue.length) {
-      var asyncTask = this.$$asyncQueue.shift();
-      this.$eval(asyncTask.expression);
+      try {
+        var asyncTask = this.$$asyncQueue.shift();
+        this.$eval(asyncTask.expression);
+      } catch (e) {
+        (console.error || console.log)(e);
+      }
     }
     dirty = this.$$digestOnce();
     if (dirty && !(ttl--)) {
@@ -68,7 +76,11 @@ Scope.prototype.$digest = function(){
   this.$clearPhase();
 
   while (this.$$postDigestQueue.length) {
-    this.$$postDigestQueue.shift()();
+    try {
+      this.$$postDigestQueue.shift()();
+    } catch (e) {
+      (console.error || console.log)(e);
+    }
   }
 };
 
