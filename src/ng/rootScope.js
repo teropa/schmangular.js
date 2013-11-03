@@ -5,7 +5,7 @@ function Scope() {
 Scope.prototype.$watch = function(watchFn, listenerFn) {
   var watcher = {
     watchFn: watchFn,
-    listenerFn: listenerFn
+    listenerFn: listenerFn || function() { }
   };
   this.$$watchers.push(watcher);
 };
@@ -21,3 +21,4 @@ Scope.prototype.$digest = function() {
     watch.last = newValue;
   });  
 };
+
