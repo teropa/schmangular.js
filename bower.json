@@ -1,0 +1,15 @@
+{
+  "name": "schmangular",
+  "description": "An ad hoc, informally-specified, bug-ridden, slow implementation of half of AngularJS.",
+  "version": "0.0.0",
+  "authors": [
+    "Tero Parviainen <tero@teropa.info>"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
