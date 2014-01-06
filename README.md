@@ -1,3 +1,7 @@
+# Update 2014-01-06
+
+This project now lives on in the [Build Your Own AngularJS](http://teropa.info/build-your-own-angular/) eBook.
+
 # SchmangularJS
 
 An ad hoc, informally-specified, bug-ridden, slow implementation of half of [AngularJS](http://angularjs.org/).
